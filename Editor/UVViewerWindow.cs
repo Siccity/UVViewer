@@ -447,10 +447,22 @@ namespace Macaron.UVViewer.Editor
                         };
                     }
 
-                    setViewMesh(mesh.uv, _uvLineMesh, _uvVertexMesh);
-                    setViewMesh(mesh.uv2, _uv2LineMesh, _uv2VertexMesh);
-                    setViewMesh(mesh.uv3, _uv3LineMesh, _uv3VertexMesh);
-                    setViewMesh(mesh.uv4, _uv4LineMesh, _uv4VertexMesh);
+                    MeshRenderer meshRenderer = renderer as MeshRenderer;
+                    Vector2[] uv1 = mesh.uv;
+                    Vector2[] uv2 = mesh.uv2;
+                    Vector2[] uv3 = mesh.uv3;
+                    Vector2[] uv4 = mesh.uv4;
+                    if (meshRenderer != null && meshRenderer.additionalVertexStreams != null)
+                    {
+                        if (meshRenderer.additionalVertexStreams.uv != null) uv1 = meshRenderer.additionalVertexStreams.uv;
+                        if (meshRenderer.additionalVertexStreams.uv2 != null) uv2 = meshRenderer.additionalVertexStreams.uv2;
+                        if (meshRenderer.additionalVertexStreams.uv3 != null) uv3 = meshRenderer.additionalVertexStreams.uv3;
+                        if (meshRenderer.additionalVertexStreams.uv4 != null) uv4 = meshRenderer.additionalVertexStreams.uv4;
+                    }
+                    setViewMesh(uv1, _uvLineMesh, _uvVertexMesh);
+                    setViewMesh(uv2, _uv2LineMesh, _uv2VertexMesh);
+                    setViewMesh(uv3, _uv3LineMesh, _uv3VertexMesh);
+                    setViewMesh(uv4, _uv4LineMesh, _uv4VertexMesh);
 
                     int uvChannelFlag =
                         (_uvLineMesh.vertexCount > 0 ? 0x01 : 0) |
